@@ -684,6 +684,16 @@ def test_task_progress_column_speed() -> None:
     assert speed_text.plain == "8.9×10⁶ it/s"
 
 
+def test_task_reopens_when_progress_decreases():
+    progress = Progress()
+    task_id = progress.add_task("Test", total=100)
+
+    progress.update(task_id, completed=100)
+    assert progress.tasks[0].finished
+
+    progress.update(task_id, completed=50)
+    assert not progress.tasks[0].finished
+
 if __name__ == "__main__":
     _render = render_progress()
     print(_render)
