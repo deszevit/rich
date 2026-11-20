@@ -1460,6 +1460,13 @@ class Progress(JupyterMixin):
                 _progress.append(ProgressSample(current_time, update_completed))
             if (
                 task.total is not None
+                and task.completed < task.total
+                and task.finished_time is not None
+            ):
+                task.finished_time = None
+                task.finished_speed = None
+            if (
+                task.total is not None
                 and task.completed >= task.total
                 and task.finished_time is None
             ):
